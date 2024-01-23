@@ -15,7 +15,7 @@ app.get("/",(req,res)=> {
     res.render('index.ejs');
 });
 
-app.listen(3002,()=> {
+app.listen(3002,"0.0.0.0",()=> {
     console.log("Serwer dziala");
 });
 
