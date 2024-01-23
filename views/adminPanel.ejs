@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl-PL">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <div class="container">
+        <form class="form" method="POST">
+            <input type="text" placeholder="Nazwa gry" name="nazwa" required="true">
+            <input type="text" placeholder="Wydawca" name="wydawca" required="true">
+            <input type="text" placeholder="Cena" name="cena" required="true">
+            <button type="submit">Wyslij</button>
+        </form>
+        <div class="row">
+            <div class="dataID data">ID</div>
+            <div class="data">Nazwa</div>
+            <div class="data">Wydawca</div>
+            <div class="data">Cena</div>
+            <div class="data">Operacje</div>
+        </div>
+            <% if(test.length > 0) {%>
+                <% for(var i = 0 ; i <test.length ; i++){%>
+            <div class="row">
+                <div class="data"><%= test[i].id%></div>
+                <div class="data"><%= test[i].nazwa%></div>
+                <div class="data"><%= test[i].producent%></div>
+                <div class="data"><%= test[i].cena%></div>
+                <div class="operations">
+                    <button class="updateButton"><a href=""></a>Update</button>
+                    <a href="administrator/delete?id=<%= test[i].id %>"><button class="deleteButton">Delete</button></a>
+                </div>
+            </div>
+        <% } %>
+                <% } else { %>
+                    <div class="notFound">
+                        <h1>Nie znaleziono danych</h1>
+                    </div>
+                <% } %>
+    </div>
+</body>
+</html>
