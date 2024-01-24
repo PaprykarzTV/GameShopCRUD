@@ -13,11 +13,13 @@ function auth(req,res,next) {
 }
 
 router.get("/", auth,(req,res) => {
+    conn = connectionRequest();
     var sql = "SELECT * FROM gry;";
     conn.query(sql,(error,results)=>{
         if(error) throw error;
         res.status(200);
         res.render("adminPanel.ejs",{test:results});
+        conn.destroy();
     });
 });
 
