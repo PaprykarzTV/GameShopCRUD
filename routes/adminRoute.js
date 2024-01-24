@@ -11,7 +11,7 @@ function auth(req,res,next) {
         res.render('errorPage.ejs',{errorCode: 401,errorTitle: "Permission Denied"});
     }
 }
-
+router.use(express.static('assets'));
 router.get("/", auth,(req,res) => {
     var sql = "SELECT * FROM gry;";
     conn.query(sql,(error,results)=>{
