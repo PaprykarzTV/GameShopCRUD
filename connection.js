@@ -10,9 +10,9 @@ const conn = mysql.createPool({
     database: process.env.MYSQLDATABASE
 });
 
-conn.connect((err)=>{
-    if(err) throw err;
-    console.log("Polaczono z baza danych");
-});
+// conn.connect((err)=>{
+//     if(err) throw err;
+//     console.log("Polaczono z baza danych");
+// });
 
 module.exports = conn;
