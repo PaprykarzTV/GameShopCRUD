@@ -18,7 +18,6 @@ router.get("/", auth,(req,res) => {
         if(error) throw error;
         res.status(200);
         res.render("adminPanel.ejs",{test:results});
-        conn.destroy();
     });
 });
 
