@@ -1,4 +1,14 @@
+:root { 
+        --clr-third: #3c4245;  
+        --clr-second: #5f6769; 
+        --clr-first: #719192; 
+        --clr-white: #dfcdc3; 
+        --clr-bg: #191a30;
+}
+
 body {
+    color: var(--clr-white);
+    background-color: var(--clr-bg);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin: 0;
     display: flex;
@@ -11,6 +21,7 @@ body {
     justify-content: center;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 5rem;
     margin: 20px;
     box-sizing: border-box;
@@ -31,13 +42,15 @@ body {
 }
 
 .data {
+    background-color: var(--clr-third);
     flex-grow: 2;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 20rem;
     padding: .3rem 0;
-    border: 1px solid black;
+    border-radius: 10px;
+    border: none;
     gap: 3rem;
 }
 
@@ -46,14 +59,18 @@ body {
 }
 
 .updateButton {
-    background-color: #eede05;
+    background-color: #FBBC04;
 }
 
 .deleteButton {
-    background-color: #ff0000;
+    background-color: #EA4335;
 }
 .deleteButton,.updateButton {
-    border: 1px solid black;
+    border-radius: 5px;
+    border: none;
+    padding: .5rem;
+    font-weight: bold;
+    /* background-color: var(--clr-second); */
 }
 
 .deleteButton:hover,.updateButton:hover {
@@ -65,7 +82,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 20rem;
-    gap: 3rem;
+    gap: 1rem;
 }
 
 .notFound {

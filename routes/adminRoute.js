@@ -3,7 +3,9 @@ const router = express.Router();
 const conn = require("../connection");
 
 function auth(req,res,next) {
+    console.log("Proba polaczenia...")
     if(req.query.admin === "true") {
+        console.log("Polaczenie zautoryzowane")
         res.status(200);
         next();
     } else {
