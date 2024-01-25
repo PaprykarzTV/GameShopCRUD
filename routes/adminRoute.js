@@ -3,9 +3,9 @@ const router = express.Router();
 const conn = require("../connection");
 
 function auth(req,res,next) {
-    console.log("Proba polaczenia...")
+    console.log("Proba polaczenia...");
     if(req.query.admin === "true") {
-        console.log("Polaczenie zautoryzowane")
+        console.log("Polaczenie zautoryzowane");
         res.status(200);
         next();
     } else {
@@ -15,6 +15,7 @@ function auth(req,res,next) {
 }
 router.use(express.static('assets'));
 router.get("/", auth,(req,res) => {
+    console.log("Polaczenie zautoryzowane /");
     var sql = "SELECT * FROM gry;";
     conn.query(sql,(error,results)=>{
         if(error) throw error;
