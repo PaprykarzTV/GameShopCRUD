@@ -21,7 +21,16 @@ router.get("/", auth,(req,res) => {
         if(error) throw error;
         res.status(200);
         res.render("adminPanel.ejs",{test:results});
-        res.json(results);
+    });
+});
+
+router.get("/getData", auth,(req,res) => {
+    console.log("Polaczenie zautoryzowane /");
+    var sql = "SELECT * FROM gry;";
+    conn.query(sql,(error,results)=>{
+        if(error) throw error;
+        res.status(200);
+        res.send(results);
     });
 });
 
