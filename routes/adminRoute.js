@@ -38,6 +38,7 @@ router.post("/",(req,res) => {
     var nazwa = req.body.nazwa;
     var wydawca = req.body.wydawca;
     var cena = req.body.cena;
+    cena = parseFloat(cena);
 
     var sql = `INSERT INTO gry(nazwa,producent,cena) VALUES ('${nazwa}','${wydawca}',${cena});`;
 
