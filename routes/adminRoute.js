@@ -28,7 +28,7 @@ router.post("/validatelogin",(req,res) => {
     var login = req.body.login;
     var password = req.body.password;
     
-    var sql = `SELECT * FROM konta WHERE login=${login} AND password=${password};`;
+    var sql = `SELECT * FROM konta WHERE login="${login}" AND password="${password}";`;
     console.log(sql);
     conn.query(sql,(error,results)=>{
         if(error) throw error;
