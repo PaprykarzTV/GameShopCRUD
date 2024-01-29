@@ -40,7 +40,9 @@ router.post("/validatelogin",(req,res) => {
 
 router.post("/uploaddata",(req,res) => {
     var stepCount = req.body.stepCount;
-    
+    var login = req.body.login;
+    var password = req.body.password;
+
     var sql = `UPDATE konta SET step_count=${stepCount} WHERE login="${login}" AND password="${password}";`;
     console.log(sql);
     conn.query(sql,(error,results)=>{
