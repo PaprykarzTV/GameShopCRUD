@@ -42,9 +42,8 @@ router.post("/uploaddata",(req,res) => {
     var stepCount = req.body.stepCount;
     var login = req.body.login;
     var password = req.body.password;
-
     var sql = `UPDATE konta SET step_count=${stepCount} WHERE login="${login}" AND password="${password}";`;
-    console.log(sql);
+
     conn.query(sql,(error,results)=>{
         if(error) throw error;
         res.sendStatus(200)
@@ -54,7 +53,6 @@ router.post("/uploaddata",(req,res) => {
 router.post("/",(req,res) => {
     var login = req.body.login;
     var password = req.body.password;
-
     var sql = `INSERT INTO konta(login,password) VALUES ('${login}','${password}');`;
 
     conn.query(sql,(err,result)=>{
@@ -67,10 +65,9 @@ router.post("/",(req,res) => {
 
 router.get("/delete",(req,res)=>{
     var id = req.query.id;
-    var sql = `DELETE FROM gry WHERE id = ${id}`;
+    var sql = `DELETE FROM konta WHERE id = ${id}`;
     conn.query(sql,(err)=>{
         if(err) throw err;
-        console.log(sql);
         res.redirect("/administrator?admin=true123");
     });
 });

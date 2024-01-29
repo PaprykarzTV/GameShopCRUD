@@ -53,16 +53,21 @@ body {
     background-color: var(--clr-third);
     flex-grow: 2;
     display: flex;
+    flex-shrink: 1; 
     justify-content: center;
     align-items: center;
-    width: 20rem;
+    flex-basis: 20rem; /* Ajust this value as needed */
+    max-width: 20rem;
     padding: .3rem 0;
     border-radius: 10px;
     border: none;
     gap: 3rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .data:first-child {
+    flex-basis: 7.5rem;
     width: 7.5rem;
 }
 
