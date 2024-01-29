@@ -47,9 +47,6 @@ router.post("/uploaddata",(req,res) => {
     console.log(sql);
     conn.query(sql,(error,results)=>{
         if(error) throw error;
-        if(results.length === 0) {
-            res.status(401).send("Nieudane logowanie");
-        } else res.status(200).send(results[0].step_count);   
     });
 });
 
