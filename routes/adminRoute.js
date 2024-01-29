@@ -31,11 +31,10 @@ router.post("/validatelogin", auth,(req,res) => {
     var sql = `SELECT * FROM konta WHERE login = ${login} AND password = ${password};`;
     conn.query(sql,(error,results)=>{
         if(error) throw error;
-        if(results) {
-            console.log(results);
-            res.status(200);
-            res.send(results);
-        } else console.log("Bledne dane logowania")
+        if(results.length === 0) {
+            console.log("Bledne dane logowania")
+            res.status(401).send("Nieudane logowanie");
+        } else res.status(200).send("Udane logowanie"); 
         
     });
 });
