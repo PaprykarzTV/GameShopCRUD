@@ -47,6 +47,7 @@ router.post("/uploaddata",(req,res) => {
     console.log(sql);
     conn.query(sql,(error,results)=>{
         if(error) throw error;
+        res.sendStatus(200)
     });
 });
 
