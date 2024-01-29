@@ -10,13 +10,13 @@ function auth(req,res,next) {
         next();
     } else {
         res.status(401);
+        console.log("Polaczenie odrzucone");
         res.render('errorPage.ejs',{errorCode: 401,errorTitle: "Permission Denied"});
     }
 }
 router.use(express.static('assets'));
 router.get("/", auth,(req,res) => {
-    console.log("Polaczenie zautoryzowane /");
-    var sql = "SELECT * FROM gry;";
+    var sql = "SELECT * FROM konta;";
     conn.query(sql,(error,results)=>{
         if(error) throw error;
         res.status(200);
@@ -24,23 +24,27 @@ router.get("/", auth,(req,res) => {
     });
 });
 
-router.get("/getData", auth,(req,res) => {
-    console.log("Polaczenie zautoryzowane /");
-    var sql = "SELECT * FROM gry;";
+router.post("/validatelogin", auth,(req,res) => {
+    var login = req.body.login;
+    var password = req.body.password;
+
+    var sql = `SELECT * FROM konta WHERE login = ${login} AND password = ${password};`;
     conn.query(sql,(error,results)=>{
         if(error) throw error;
-        res.status(200);
-        res.send(results);
+        if(results) {
+            console.log(results);
+            res.status(200);
+            res.send(results);
+        } else console.log("Bledne dane logowania")
+        
     });
 });
 
 router.post("/",(req,res) => {
-    var nazwa = req.body.nazwa;
-    var wydawca = req.body.wydawca;
-    var cena = req.body.cena;
-    cena = parseFloat(cena);
+    var login = req.body.login;
+    var password = req.body.password;
 
-    var sql = `INSERT INTO gry(nazwa,producent,cena) VALUES ('${nazwa}','${wydawca}',${cena});`;
+    var sql = `INSERT INTO konta(login,password) VALUES ('${login}','${password}');`;
 
     conn.query(sql,(err,result)=>{
         if(err) throw err;
