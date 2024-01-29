@@ -24,7 +24,7 @@ router.get("/", auth,(req,res) => {
     });
 });
 
-router.post("/validatelogin", auth,(req,res) => {
+router.post("/validatelogin",(req,res) => {
     var login = req.body.login;
     var password = req.body.password;
 
