@@ -5,7 +5,7 @@ router.use(express.static('assets'));
 
 function auth(req,res,next) {
     console.log("Proba polaczenia...");
-    if(req.query.admin === "true") {
+    if(req.query.admin === "true123") {
         console.log("Polaczenie zautoryzowane");
         res.status(200);
         next();
@@ -61,7 +61,7 @@ router.post("/",(req,res) => {
         if(err) throw err;
         console.log("Dane zostały przesłane");
         res.status(200);
-        res.redirect("/administrator?admin=true");
+        res.redirect("/administrator?admin=true123");
     });
 });
 
@@ -71,7 +71,7 @@ router.get("/delete",(req,res)=>{
     conn.query(sql,(err)=>{
         if(err) throw err;
         console.log(sql);
-        res.redirect("/administrator?admin=true");
+        res.redirect("/administrator?admin=true123");
     });
 });
 
