@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const conn = require("../connection");
+router.use(express.static('assets'));
 
 function auth(req,res,next) {
     console.log("Proba polaczenia...");
@@ -14,7 +15,7 @@ function auth(req,res,next) {
         res.render('errorPage.ejs',{errorCode: 401,errorTitle: "Permission Denied"});
     }
 }
-router.use(express.static('assets'));
+
 router.get("/", auth,(req,res) => {
     var sql = "SELECT * FROM konta;";
     conn.query(sql,(error,results)=>{
@@ -33,8 +34,20 @@ router.post("/validatelogin",(req,res) => {
         if(error) throw error;
         if(results.length === 0) {
             res.status(401).send("Nieudane logowanie");
-        } else res.status(200).send(`Logowanie udane : ${results[0].step_count}`); 
-        
+        } else res.status(200).send(results[0].step_count);   
+    });
+});
+
+router.post("/uploaddata",(req,res) => {
+    var stepCount = req.body.stepCount;
+    
+    var sql = `UPDATE konta SET step_count=${stepCount} WHERE login="${login}" AND password="${password}";`;
+    console.log(sql);
+    conn.query(sql,(error,results)=>{
+        if(error) throw error;
+        if(results.length === 0) {
+            res.status(401).send("Nieudane logowanie");
+        } else res.status(200).send(results[0].step_count);   
     });
 });
 
@@ -51,7 +64,6 @@ router.post("/",(req,res) => {
         res.redirect("/administrator?admin=true");
     });
 });
-
 
 router.get("/delete",(req,res)=>{
     var id = req.query.id;
