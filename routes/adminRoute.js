@@ -34,7 +34,7 @@ router.post("/validatelogin",(req,res) => {
         if(error) throw error;
         if(results.length === 0) {
             res.status(401).send("Nieudane logowanie");
-        } else res.status(200).send(results[0].step_count);   
+        } else res.status(200).send(`${results[0].step_count}`);   
     });
 });
 
