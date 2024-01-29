@@ -27,15 +27,13 @@ router.get("/", auth,(req,res) => {
 router.post("/validatelogin",(req,res) => {
     var login = req.body.login;
     var password = req.body.password;
-    
     var sql = `SELECT * FROM konta WHERE login="${login}" AND password="${password}";`;
     console.log(sql);
     conn.query(sql,(error,results)=>{
         if(error) throw error;
         if(results.length === 0) {
-            console.log("Bledne dane logowania")
             res.status(401).send("Nieudane logowanie");
-        } else res.status(200).send("Udane logowanie"); 
+        } else res.status(200).send(`Logowanie udane : ${results[0].step_count}`); 
         
     });
 });
