@@ -81,7 +81,8 @@ router.post("/uploaddata",(req,res) => {
                     conn.query(uploadSql,(error3,results3) => {
                         if(error3) throw error3;
                         console.log("Data updated");
-                        res.sendStatus(200);
+                        // res.sendStatus(200);
+                        res.status(200).send("Wysłano pomyślnie dane");
                     });
                 }
             });
