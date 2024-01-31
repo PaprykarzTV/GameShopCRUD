@@ -51,7 +51,7 @@ router.post("/validatelogin",(req,res) => {
 });
 
 router.post("/uploaddata",(req,res) => {
-    var stepCount = req.body.stepCount;
+    var stepCount = parseInt(req.body.stepCount);
     var login = req.body.login;
     var password = req.body.password;
     getIdSql = `SELECT id FROM konta WHERE login="${login}" AND password="${password}"`;
