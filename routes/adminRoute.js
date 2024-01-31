@@ -54,8 +54,7 @@ router.post("/uploaddata",(req,res) => {
     var stepCount = req.body.stepCount;
     var login = req.body.login;
     var password = req.body.password;
-    getIdSql = `SELECT id FROM konta WHERE login="${login}" AND password="${password}"`
-    //var sql = `UPDATE konta SET step_count=${stepCount} WHERE login="${login}" AND password="${password}";`;
+    getIdSql = `SELECT id FROM konta WHERE login="${login}" AND password="${password}"`;
     conn.query(getIdSql, (error, results) => {
         if (error) {
             throw error;
@@ -67,6 +66,8 @@ router.post("/uploaddata",(req,res) => {
             var searchForUploadedDataTodaySql = `SELECT * FROM kroki WHERE user_id=${userId} AND date=CURRENT_DATE()`
             conn.query(searchForUploadedDataTodaySql, (error2,results2) =>{
                 if(error2) throw error2;
+
+                //Jesli pierwszy raz dane sa zapisywane w ciagu dnia tworzy rekord do dnia
                 if(results2.length === 0) {
                     var uploadSql = `INSERT INTO kroki(user_id,steps,date) VALUES (${userId},${stepCount},CURRENT_DATE()) `
                     conn.query(uploadSql,(error3,results3) => {
@@ -75,7 +76,8 @@ router.post("/uploaddata",(req,res) => {
                         res.sendStatus(200);
                     });
                 } else {
-                    uploadSql = `UPDATE kroki SET steps = ${stepCount} WHERE user_id=${userId} AND date=CURRENT_DATE()`
+                    //Jesli dane z aktualnego dnia sa, zaktualizuje baze danych 
+                    uploadSql = `UPDATE kroki SET steps = steps + ${stepCount} WHERE user_id=${userId} AND date=CURRENT_DATE()`
                     conn.query(uploadSql,(error3,results3) => {
                         if(error3) throw error3;
                         console.log("Data updated");
