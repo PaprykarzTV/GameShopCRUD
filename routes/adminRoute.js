@@ -45,7 +45,7 @@ router.post("/uploaddata",(req,res) => {
     //var sql = `UPDATE konta SET step_count=${stepCount} WHERE login="${login}" AND password="${password}";`;
     var getIDsql = conn.query(`SELECT id FROM konta WHERE login="${login}" AND password="${password}"`,(error,results)=>{
         if(error) throw error;
-        return results[0];
+        return results[0].id;
     });
     console.log("ID uzytkownika : " + getIDsql);
 });
