@@ -54,6 +54,7 @@ router.post("/uploaddata",(req,res) => {
             var uploadSql = `INSERT INTO kroki(user_id,steps,date) VALUES (${userId},${stepCount},CURRENT_DATE()) `
             conn.query(uploadSql,(error2,results2) => {
                 if(error2) throw error2;
+                console.log("Cos sie stalo?");
                 res.sendStatus(200);
             })
         } else {
