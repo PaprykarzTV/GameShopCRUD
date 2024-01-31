@@ -42,16 +42,20 @@ router.post("/uploaddata",(req,res) => {
     var stepCount = req.body.stepCount;
     var login = req.body.login;
     var password = req.body.password;
+    getIdSql = `SELECT id FROM konta WHERE login="${login}" AND password="${password}"`
     //var sql = `UPDATE konta SET step_count=${stepCount} WHERE login="${login}" AND password="${password}";`;
-    conn.query(`SELECT id FROM konta WHERE login="${login}" AND password="${password}"`, (error, results) => {
+    conn.query(getIdSql, (error, results) => {
         if (error) {
             throw error;
         }
 
         if (results.length > 0) {
             var userId = results[0].id;
-            console.log("ID użytkownika: " + userId);
-            
+            var uploadSql = `INSERT INTO kroki('user_id','steps','date') VALUES (${userId},${stepCount},CURRENT_DATE()) `
+            conn.query(uploadSql,(error2,results2) => {
+                if(error2) throw error2;
+                res.sendStatus(200);
+            })
         } else {
             console.log("Użytkownik nie znaleziony.");
         }
