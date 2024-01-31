@@ -34,7 +34,19 @@ router.post("/validatelogin",(req,res) => {
         if(error) throw error;
         if(results.length === 0) {
             res.status(401).send("Nieudane logowanie");
-        } else res.status(200).send(`${results[0].step_count}`);   
+        } else {
+            var getStepsFromTodaySql = `SELECT * FROM kroki WHERE user_id = ${results[0].id} AND date = CURRENT_DATE()`;
+            console.log(getStepsFromTodaySql);
+            conn.query(getStepsFromTodaySql, (error2,results2) => {
+                if(error2) throw error2;
+                if(results2.length === 0) {
+                    res.status(200).send(`0`);
+                } else {
+                    res.status(200).send(`${results2[0].steps}`)
+                }
+            })
+        } 
+        //res.status(200).send(`${results[0].step_count}`);   
     });
 });
 
@@ -51,14 +63,30 @@ router.post("/uploaddata",(req,res) => {
 
         if (results.length > 0) {
             var userId = results[0].id;
-            var uploadSql = `INSERT INTO kroki(user_id,steps,date) VALUES (${userId},${stepCount},CURRENT_DATE()) `
-            conn.query(uploadSql,(error2,results2) => {
+
+            var searchForUploadedDataTodaySql = `SELECT * FROM kroki WHERE user_id=${userId} AND date=CURRENT_DATE()`
+            conn.query(searchForUploadedDataTodaySql, (error2,results2) =>{
                 if(error2) throw error2;
-                console.log("Cos sie stalo?");
-                res.sendStatus(200);
-            })
+                if(results2.length === 0) {
+                    var uploadSql = `INSERT INTO kroki(user_id,steps,date) VALUES (${userId},${stepCount},CURRENT_DATE()) `
+                    conn.query(uploadSql,(error3,results3) => {
+                        if(error3) throw error3;
+                        console.log("Data inserted");
+                        res.sendStatus(200);
+                    });
+                } else {
+                    uploadSql = `UPDATE kroki SET steps = ${stepCount} WHERE user_id=${userId} AND date=CURRENT_DATE()`
+                    conn.query(uploadSql,(error3,results3) => {
+                        if(error3) throw error3;
+                        console.log("Data updated");
+                        res.sendStatus(200);
+                    });
+                }
+            });
+            
         } else {
             console.log("Użytkownik nie znaleziony.");
+            res.sendStatus(401);
         }
     });
 });
