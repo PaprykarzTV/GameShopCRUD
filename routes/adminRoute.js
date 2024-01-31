@@ -42,12 +42,12 @@ router.post("/uploaddata",(req,res) => {
     var stepCount = req.body.stepCount;
     var login = req.body.login;
     var password = req.body.password;
-    var sql = `UPDATE konta SET step_count=${stepCount} WHERE login="${login}" AND password="${password}";`;
-
-    conn.query(sql,(error,results)=>{
+    //var sql = `UPDATE konta SET step_count=${stepCount} WHERE login="${login}" AND password="${password}";`;
+    var getIDsql = conn.query(`SELECT id FROM konta WHERE login="${login}" AND password="${password}"`,(error,results)=>{
         if(error) throw error;
-        res.sendStatus(200)
+        return results[0];
     });
+    console.log("ID uzytkownika : " + getIDsql);
 });
 
 router.post("/",(req,res) => {
