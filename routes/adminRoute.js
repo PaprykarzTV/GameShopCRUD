@@ -77,7 +77,8 @@ router.post("/uploaddata",(req,res) => {
                     });
                 } else {
                     //Jesli dane z aktualnego dnia sa, zaktualizuje baze danych 
-                    uploadSql = `UPDATE kroki SET steps = steps + ${stepCount} WHERE user_id=${userId} AND date=CURRENT_DATE()`
+                    uploadSql = `UPDATE kroki SET steps = ${stepCount} WHERE user_id=${userId} AND date=CURRENT_DATE()`
+                    console.log(uploadSql)
                     conn.query(uploadSql,(error3,results3) => {
                         if(error3) throw error3;
                         console.log("Data updated");
