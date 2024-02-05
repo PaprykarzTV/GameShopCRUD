@@ -25,6 +25,18 @@ router.get("/", auth,(req,res) => {
     });
 });
 
+router.get("/getData", auth,(req,res) => {
+    let login = req.body.login
+    let password = req.body.password
+    console.log(`Login : ${login} , Password : ${password}`);
+    if(login && password) res.sendStatus(200);
+    // conn.query(sql,(error,results)=>{
+    //     if(error) throw error;
+    //     res.status(200);
+    //     res.render("adminPanel.ejs",{test:results});
+    // });
+});
+
 router.post("/validatelogin",(req,res) => {
     var login = req.body.login;
     var password = req.body.password;
@@ -51,7 +63,7 @@ router.post("/validatelogin",(req,res) => {
 });
 
 router.post("/uploaddata",(req,res) => {
-    var stepCount = parseInt(req.body.stepCount);
+    var stepCount = parseInt(req.body.stepCount); //Z aplikacji jest wysyłany String
     var login = req.body.login;
     var password = req.body.password;
     getIdSql = `SELECT id FROM konta WHERE login="${login}" AND password="${password}"`;
