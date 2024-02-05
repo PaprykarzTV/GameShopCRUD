@@ -26,10 +26,14 @@ router.get("/", auth,(req,res) => {
 });
 
 router.get("/getData",(req,res) => {
-    let login = req.body.login
-    let password = req.body.password
+    let login = req.query.login // query dla GET , body dla POST zebym pamietal
+    let password = req.query.password
     console.log(`Login : ${login} , Password : ${password}`);
-    if(login && password) res.sendStatus(200);
+    if(login!=undefined && password!=undefined) {
+        res.sendStatus(200);
+    } else {
+        res.status(404).send("Login i Password undefined");
+    }
     // conn.query(sql,(error,results)=>{
     //     if(error) throw error;
     //     res.status(200);
