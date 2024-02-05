@@ -25,7 +25,7 @@ router.get("/", auth,(req,res) => {
     });
 });
 
-router.get("/getData", auth,(req,res) => {
+router.get("/getData",(req,res) => {
     let login = req.body.login
     let password = req.body.password
     console.log(`Login : ${login} , Password : ${password}`);
