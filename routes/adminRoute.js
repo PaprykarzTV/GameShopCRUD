@@ -26,14 +26,40 @@ router.get("/", auth,(req,res) => {
 });
 
 router.get("/getData",(req,res) => {
-    let login = req.query.login // query dla GET , body dla POST zebym pamietal
-    let password = req.query.password
-    console.log(`Login : ${login} , Password : ${password}`);
-    if(login!=undefined && password!=undefined) {
-        res.sendStatus(200);
-    } else {
-        res.status(404).send("Login i Password undefined");
-    }
+    const login = req.query.login // query dla GET , body dla POST zebym pamietal
+    const password = req.query.password
+
+    getIdSql = `SELECT id FROM konta WHERE login="${login}" AND password="${password}"`;
+    conn.query(getIdSql, (error, results) => {
+        if (error) {
+            throw error;
+        }
+
+        if (results.length > 0) {
+            const userId = results[0].id;
+            const data = {};
+            const weeklySql = `SELECT sum(steps) FROM kroki WHERE user_id = ${userId} AND date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)`;
+            const monthlySql = `SELECT sum(steps) FROM kroki WHERE user_id = ${userId} AND date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)`
+            conn.query(weeklySql,(err2,results2) =>{
+                if(err2) throw err2;
+                data.weeklySteps = results2;
+                conn.query(monthlySql,(err3,results3) =>{
+                    if(err3) throw err3;
+                    data.monthlySteps = results3;
+                    res.json(data);
+                });
+            }); 
+        } else {
+            console.log("Użytkownik nie znaleziony.");
+            res.sendStatus(401);
+        }
+    });
+    // console.log(`Login : ${login} , Password : ${password}`);
+    // if(login!=undefined && password!=undefined) {
+    //     res.sendStatus(200);
+    // } else {
+    //     res.status(404).send("Login i Password undefined");
+    // }
     // conn.query(sql,(error,results)=>{
     //     if(error) throw error;
     //     res.status(200);
