@@ -38,8 +38,8 @@ router.get("/getData",(req,res) => {
         if (results.length > 0) {
             const userId = results[0].id;
             const data = {};
-            const weeklySql = `SELECT sum(steps) as kroki FROM kroki WHERE user_id = ${userId} AND date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)`;
-            const monthlySql = `SELECT sum(steps) as kroki FROM kroki WHERE user_id = ${userId} AND date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)`
+            const weeklySql = `SELECT sum(steps) as kroki FROM kroki WHERE user_id = ${userId} AND date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)`;
+            const monthlySql = `SELECT sum(steps) as kroki FROM kroki WHERE user_id = ${userId} AND date >= DATE_SUB(CURDATE(), INTERVAL 29 DAY)`
             conn.query(weeklySql,(err2,results2) =>{
                 if(err2) throw err2;
                 data.weeklySteps = results2;
