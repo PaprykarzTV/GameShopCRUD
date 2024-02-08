@@ -17,7 +17,7 @@ app.use("/administrator",defaultRoute);
 //         if(steps > stepGoals[i++]) {
 //             console.log("Nastepny prog to " + stepGoals[i++]);
 //         }
-//     }
+//     } serwer
 
 app.set("view engine","ejs");
 app.use(express.static('assets'));
