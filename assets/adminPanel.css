@@ -72,21 +72,46 @@ body {
     flex-direction: column;
 }
 
-.row {
+.dataList {
+    display: grid;
+    padding: 1rem;
+    width: 100%;
+    gap: 1rem;
+}
+
+#accountDataList .row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 2fr;
+    gap: 1rem;
+}
+
+#stepsDataList .row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 2fr;
+    gap: 1rem;
+}
+
+#thresholdsDataList .row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    gap: 1rem;
+}
+
+/* .row {
     display: flex;
     justify-content: space-between;
     gap: 1rem;
     margin: 1rem;
-}
+} */
 
-.data {
+/* .data {
     background-color: var(--clr-third);
     flex-grow: 2;
     display: flex;
     flex-shrink: 1; 
     justify-content: center;
     align-items: center;
-    flex-basis: 20rem; /* Ajust this value as needed */
+    flex-basis: 20rem;
     max-width: 20rem;
     padding: .3rem 0;
     border-radius: 10px;
@@ -94,11 +119,16 @@ body {
     gap: 3rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
-}
+} */
 
-.data:first-child {
-    flex-basis: 7.5rem;
-    width: 7.5rem;
+.data {
+    background-color: var(--clr-third);
+    padding: .3rem 1rem;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .updateButton {
@@ -124,7 +154,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20rem;
     gap: 1rem;
 }
 
@@ -143,3 +172,4 @@ body {
     box-sizing: border-box;
     margin: 0;
 }
+

@@ -17,11 +17,103 @@ function auth(req,res,next) {
 }
 
 router.get("/", auth,(req,res) => {
+    res.status(200);
+    res.render("adminPanel.ejs");
+});
+
+router.get("/accounts", auth,(req,res) => {
     var sql = "SELECT * FROM konta;";
     conn.query(sql,(error,results)=>{
         if(error) throw error;
         res.status(200);
-        res.render("adminPanel.ejs",{test:results});
+        res.render("accountAdminPanel.ejs",{test:results});
+    });
+});
+
+router.post("/accounts",(req,res) => {
+    var login = req.body.login;
+    var password = req.body.password;
+    var sql = `INSERT INTO konta(login,password) VALUES ('${login}','${password}');`;
+
+    conn.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log("Dane zostały przesłane");
+        res.status(200);
+        res.redirect("/administrator/accounts?admin=true123");
+    });
+});
+
+router.get("/accountdelete",(req,res)=>{
+    var id = req.query.id;
+    var sql = `DELETE FROM konta WHERE id = ${id}`;
+    conn.query(sql,(err)=>{
+        if(err) throw err;
+        res.redirect("/administrator/accounts?admin=true123");
+    });
+});
+
+router.get("/steps", auth,(req,res) => {
+    var sql = "SELECT user_id,steps,DATE_FORMAT(date, '%Y-%m-%d') AS date FROM kroki;";
+    conn.query(sql,(error,results)=>{
+        if(error) throw error;
+        res.status(200);
+        res.render("stepsAdminPanel.ejs",{data:results});
+    });
+});
+
+router.post("/steps",(req,res) => {
+    var id = req.body.user_id;
+    var steps = req.body.steps;
+    var date = req.body.date;
+    var sql = `INSERT INTO kroki VALUES (${id},${steps},'${date}');`;
+
+    conn.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log("Dane zostały przesłane");
+        res.status(200);
+        res.redirect("/administrator/steps?admin=true123");
+    });
+});
+
+router.get("/stepsdelete",(req,res)=>{
+    var id = req.query.user_id;
+    var date = req.query.date;
+    var sql = `DELETE FROM kroki WHERE user_id = ${id} AND date = '${date}'`;
+    conn.query(sql,(err)=>{
+        if(err) throw err;
+        console.log(sql);
+        res.redirect("/administrator/steps?admin=true123");
+    });
+});
+
+router.get("/stepsthresholds", auth,(req,res) => {
+    var sql = "SELECT * FROM progi ORDER BY kroki ASC";
+    conn.query(sql,(error,results)=>{
+        if(error) throw error;
+        res.status(200);
+        res.render("thresholdsAdminPanel.ejs",{data:results});
+    });
+});
+
+router.post("/stepsthresholds",(req,res) => {
+    var steps = req.body.steps;
+    var sql = `INSERT INTO progi (kroki) VALUES (${steps});`;
+
+    conn.query(sql,(err,result)=>{
+        if(err) throw err;
+        console.log("Dane zostały przesłane");
+        res.status(200);
+        res.redirect("/administrator/stepsthresholds?admin=true123");
+    });
+});
+
+router.get("/thresholddelete",(req,res)=>{
+    var id = req.query.id;
+    var sql = `DELETE FROM progi WHERE id = ${id}`;
+    conn.query(sql,(err)=>{
+        if(err) throw err;
+        console.log(sql);
+        res.redirect("/administrator/stepsthresholds?admin=true123");
     });
 });
 
@@ -50,21 +142,9 @@ router.get("/getData",(req,res) => {
                 });
             }); 
         } else {
-            console.log("Użytkownik nie znaleziony.");
-            res.sendStatus(401);
+            res.status(401).send("Użytkownik nieznaleziony");
         }
     });
-    // console.log(`Login : ${login} , Password : ${password}`);
-    // if(login!=undefined && password!=undefined) {
-    //     res.sendStatus(200);
-    // } else {
-    //     res.status(404).send("Login i Password undefined");
-    // }
-    // conn.query(sql,(error,results)=>{
-    //     if(error) throw error;
-    //     res.status(200);
-    //     res.render("adminPanel.ejs",{test:results});
-    // });
 });
 
 router.post("/validatelogin",(req,res) => {
@@ -134,28 +214,6 @@ router.post("/uploaddata",(req,res) => {
             console.log("Użytkownik nie znaleziony.");
             res.sendStatus(401);
         }
-    });
-});
-
-router.post("/",(req,res) => {
-    var login = req.body.login;
-    var password = req.body.password;
-    var sql = `INSERT INTO konta(login,password) VALUES ('${login}','${password}');`;
-
-    conn.query(sql,(err,result)=>{
-        if(err) throw err;
-        console.log("Dane zostały przesłane");
-        res.status(200);
-        res.redirect("/administrator?admin=true123");
-    });
-});
-
-router.get("/delete",(req,res)=>{
-    var id = req.query.id;
-    var sql = `DELETE FROM konta WHERE id = ${id}`;
-    conn.query(sql,(err)=>{
-        if(err) throw err;
-        res.redirect("/administrator?admin=true123");
     });
 });
 

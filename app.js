@@ -10,14 +10,14 @@ app.use("/administrator",defaultRoute);
 
 
 
-let stepGoals = [1000,2000,3000,4000];
-let steps = 1444;
+// let stepGoals = [1000,2000,3000,4000];
+// let steps = 1444;
 
-    for(let i=0 ;i < stepGoals.length; i++) {
-        if(steps > stepGoals[i++]) {
-            console.log("Nastepny prog to " + stepGoals[i++]);
-        }
-    }
+//     for(let i=0 ;i < stepGoals.length; i++) {
+//         if(steps > stepGoals[i++]) {
+//             console.log("Nastepny prog to " + stepGoals[i++]);
+//         }
+//     }
 
 app.set("view engine","ejs");
 app.use(express.static('assets'));
